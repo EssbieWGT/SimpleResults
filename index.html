@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="refresh" content="30"/>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/uswds/1.6.8/css/uswds.min.css">
+	<style>
+		.containerwgt {
+			position: relative;
+			margin-top: 10%;
+			margin-left: 10%;
+      margin-right: 10%;
+		}
+	</style>
+
+	<head>
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <title> 2018 Called Races </title>
+
+  <body>
+<div class="containerwgt">
+
+<h1> Election Night 2018 </h1>
+
+<div id="lastupdate"></div>
+</br>
+<div> The following page will automatically update every minute (or on manual reload) and show you each Senate, House and Gubernatorial race that has been decided so far. I'm hoping this might make watching the returns just a little less stressful! </br> </br> This page will automatically refresh every minute. </div>
+
+<h2> Current Disposition </h2>
+<div id = "results-count"></div>
+
+<h2> Senate Races Decided </h2>
+<div id="senate-location"></div>
+
+<h2> Governors Races Decided </h2>
+<div id="governor-location"></div>
+
+<h2> House Races Decided </h2>
+<div id="house-location"></div>
+
+</div>
+
+<script>
+
+document.getElementById('lastupdate').innerHTML = "Last Update: " + new Date()
+
+d3.queue()
+  .defer(d3.json, "https://www.politico.com/election-results/2018/senate/state.json")
+  .defer(d3.json, "https://www.politico.com/election-results/2018/house/state.json")
+  .defer(d3.json, "https://www.politico.com/election-results/2018/governor/state.json")
+  .await(analyze);
+
+  function analyze(error, senateData, houseData,governorData) {
+    if(error) { console.log(error); }
+
+
+var senate = senateData.filter(function(d){return d.winner === true})
+var house = houseData.filter(function(d){return d.winner === true})
+var governor = governorData.filter(function(d){return d.winner === true})
+var senateDems = senate.filter(function(d){return d.party != "GOP"})
+var houseDems = house.filter(function(d){return d.party != "GOP"})
+var governorDems = governor.filter(function(d){return d.party != "GOP"})
+
+
+var senateTotal = 35
+var houseTotal = 435
+var governorTotal = 36
+
+document.getElementById("results-count").innerHTML = ("Senate: " + senate.length + " of " + senateTotal + " races decided. Dems now have " + (senateDems+23) + " seats, and need" +  (50-(senateDems+23)) + " more for a majority." + "</br>" +
+                                                    "Governors: " + governor.length + " of " + governorTotal + " races decided. Dems now have " + (governorDems+7) + " state houses." + "</br>" +
+                                                  "House Races: " + house.length +  " of " + houseTotal + " races decided. Dems now have " + house.length + " house seats, and need" +  (218-houseDems) + " more for a majority." + "</br>" )
+
+var senatetable = d3.select("#senate-location")
+                    .selectAll("div")
+                    .data(senate)
+                    .enter()
+                    .append("div")
+                    .text(function(d) {return d.statepostal +"-"+d.party})
+                    .style("color",function(d){
+                      if (d.party != "GOP"){
+                        return "blue"} else {
+                          return "red"
+                        }
+                    })
+
+  var govtable = d3.select("#governor-location")
+                      .selectAll("div")
+                      .data(governor)
+                      .enter()
+                      .append("div")
+                      .text(function(d) {return d.statepostal +"-"+d.party})
+                      .style("color",function(d){
+                        if (d.party != "GOP"){
+                          return "blue"} else {
+                            return "red"
+                          }
+                      })
+
+  var housetable = d3.select("#house-location")
+                      .selectAll("div")
+                      .data(governor)
+                      .enter()
+                      .append("div")
+                      .text(function(d) {return d.statepostal +"-"+d.party})
+                      .style("color",function(d){
+                        if (d.party != "GOP"){
+                          return "blue"} else {
+                            return "red"
+                          }
+                      })
+
+  }
+
+
+</script>
+
+  </body>
