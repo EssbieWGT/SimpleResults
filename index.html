@@ -102,7 +102,7 @@ var senatetable = d3.select("#senate-location")
                       .data(governor)
                       .enter()
                       .append("div")
-                      .text(function(d) {return d.statepostal +"-"+d.party})
+                      .text(function(d) {return d.statepostal +"-"+d.seatnum})
                       .style("color",function(d){
                         if (d.party != "GOP"){
                           return "blue"} else {
