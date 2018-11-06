@@ -62,6 +62,7 @@ var senateDems = senate.filter(function(d){return d.party != "GOP"})
 var houseDems = house.filter(function(d){return d.party != "GOP"})
 var governorDems = governor.filter(function(d){return d.party != "GOP"})
 
+console.log(houseDems[0])
 
 var senateTotal = 35
 var houseTotal = 435
@@ -89,7 +90,7 @@ var senatetable = d3.select("#senate-location")
                       .data(governor)
                       .enter()
                       .append("div")
-                      .text(function(d) {return d.statepostal +"-"+d.party})
+                      .text(function(d) {return d.statepostal + "-" + d.party})
                       .style("color",function(d){
                         if (d.party != "GOP"){
                           return "blue"} else {
