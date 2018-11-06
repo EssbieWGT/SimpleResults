@@ -62,7 +62,7 @@ var senateDems = senate.filter(function(d){return d.party != "GOP"})
 var houseDems = house.filter(function(d){return d.party != "GOP"})
 var governorDems = governor.filter(function(d){return d.party != "GOP"})
 
-console.log(houseDems[0])
+console.log(house[0])
 
 var senateTotal = 35
 var houseTotal = 435
@@ -70,7 +70,7 @@ var governorTotal = 36
 
 document.getElementById("results-count").innerHTML = ("Senate: " + senate.length + " of " + senateTotal + " races decided. Dems now have " + (senateDems+23) + " seats, and need " +  (50-(senateDems+23)) + " more for a majority." + "</br>" +
                                                     "Governors: " + governor.length + " of " + governorTotal + " races decided. Dems now have " + (governorDems+7) + " state houses." + "</br>" +
-                                                  "House Races: " + house.length +  " of " + houseTotal + " races decided. Dems now have " + house.length + " house seats, and need " +  (218-houseDems) + " more for a majority." + "</br>" )
+                                                  "House Races: " + house.length +  " of " + houseTotal + " races decided. Dems now have " + houseDem.length + " house seats, and need " +  (218-houseDems.length) + " more for a majority." + "</br>" )
 
 var senatetable = d3.select("#senate-location")
                     .selectAll("div")
