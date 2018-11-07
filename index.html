@@ -100,7 +100,7 @@ var senatetable = d3.select("#senate-location")
 
   var housetable = d3.select("#house-location")
                       .selectAll("div")
-                      .data(governor)
+                      .data(house)
                       .enter()
                       .append("div")
                       .text(function(d) {return d.statepostal +"-"+d.seatnum})
