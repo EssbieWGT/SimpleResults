@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html>
+	
+	<meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+ <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+   integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+   crossorigin=""></script>
+   <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+   
+   <style>
+   
+   #resultsMap {
+    height: 100%;
+    width: 100%;
+   } 
+   
+   </style>
+   
+   <head> 
+   <title> 2018 Election Results, By Congressional District </title>
+   
+   <body>
+   
+   <div id="resultsMap"></div>
+   
+   <script>
+   
+   var layer = new L.StamenTileLayer("terrain");
+   var map = new L.Map("resultsMap", {
+    center: new L.LatLng(37.7, -122.4),
+    zoom: 12
+});
+
+map.addLayer(layer);
+   
+   
+   
+   </script>
+   
+   </body>
+   </html>
+ 
+   
+
+
+
+</html>
