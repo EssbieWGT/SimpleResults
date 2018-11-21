@@ -74,7 +74,7 @@ mapData.features.forEach(function(feat) {
     });
     feat.properties.vote = result.map(x => x.votepct)
     feat.properties.times = result.map(x => x.system)
-    feat.votewatch = result.map(x => (x.votepct))
+    feat.votewatch = result.map(x => x.votepct.toFixed(4)*100)
 });
 
     //define styles
@@ -114,7 +114,7 @@ var geoLayer = new L.geoJson().addTo(map)
 function onEachFeature(feature, layer) {
     // does this feature have a property named popupContent?
     if (feature.properties && feature.properties.CD115FP) {
-        layer.bindPopup("District Number: " + feature.properties.CD115FP + "</br> Final Dem Vote Share: " + feature.votewatch[132].toFixed(4)*100 + "</br>");
+        layer.bindPopup("District Number: " + feature.properties.CD115FP + "</br> Final Dem Vote Share: " + feature.votewatch[132] + "</br>");
     }
 }
 
