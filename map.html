@@ -106,13 +106,15 @@ function updateColors(){
     indexCount = indexCount+1
 setTimeout(updateColors, 500);  
   } else { if (indexCount == 133){
+    layerGroup.clearLayers();
     // Create geoLayer, and then add it to time layer.
     var geoLayer = new L.geoJson(mapData, {style: style, smoothFactor: 0.25}).addTo(map)
     layerGroup.addLayer(geoLayer)
-	  console.log("all done. refresh!")
+      indexCount = 0
+      console.log("133 count is " + indexCount)
   };
 };
-
+setTimeout(updateColors, 500);
  };
 
 }
