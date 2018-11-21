@@ -22,6 +22,21 @@
     height: 100vh;
     width: 100vw;
    }
+
+   .info {
+       padding: 6px 8px;
+       font: 14px/16px Arial, Helvetica, sans-serif;
+       color: #777;
+       text-align: right;
+       background: white;
+       box-shadow: 0 0 15px rgba(0,0,0,0.2);
+       border-radius: 5px;
+   }
+   .info h4 {
+       margin: 0 0 5px;
+       color: #777;
+   }
+
 </style>
 
 <head>
@@ -30,7 +45,7 @@
 
 <body>
 
-   <div id="resultsMap"></div>
+<div id="resultsMap"></div>
 
 <script>
 var indexCount = 22
@@ -45,7 +60,6 @@ map.addLayer(layer);
 
 //load and process the data
 d3.queue()
-  // .defer(d3.json, "demresults.geojson")
   .defer(d3.json, "demtime.geojson")
   .defer(d3.json, "cd116.geojson")
   .await(analyze);
@@ -59,7 +73,7 @@ mapData.features.forEach(function(feat) {
         return result.district === feat.properties.district;
     });
     feat.properties.vote = result.map(x => x.votepct)
-    // feat.properties.coordTimes = result.map(x => x.system)
+    feat.properties.times = result.map(x => x.system)
 });
 
     //define styles
@@ -95,30 +109,60 @@ var layerGroup = new L.LayerGroup();
 layerGroup.addTo(map);
 var geoLayer = new L.geoJson().addTo(map)
 
+//apply district numbers to popups. Doesn't need to be dynamic.
+function onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.CD115FP) {
+        layer.bindPopup("District Number: " + feature.properties.CD115FP);
+    }
+}
+
+addInfo()
+
+function addInfo(){
+//trying to make info global variable so don't have to write extra code below
+window.info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    info.update()
+    return this._div;
+};
+
+// method to update the timestamp
+info.update = function (props) {
+    this._div.innerHTML = "<h4> 2018 House Races on Election Night </h4>"
+    + "Timestamp: " + mapData.features[1].properties.times[indexCount]
+    + "</br> Click on map for district numbers </br>"
+};
+info.addTo(map);
+}
+
 updateColors()
 
 function updateColors(){
   if (indexCount != 133){
     layerGroup.clearLayers();
-    // Create geoLayer, and then add it to time layer.
-    var geoLayer = new L.geoJson(mapData, {style: style, smoothFactor: 0.25})
+    info.remove()
+    var geoLayer = new L.geoJson(mapData, {style: style, smoothFactor: 0.25,onEachFeature: onEachFeature})
     layerGroup.addLayer(geoLayer)
+    addInfo()
     indexCount = indexCount+1
-// setTimeout(updateColors, 500);  
+    setTimeout(updateColors, 700);
   } else { if (indexCount == 133){
     layerGroup.clearLayers();
-    // Create geoLayer, and then add it to time layer.
-    var geoLayer = new L.geoJson(mapData, {style: style, smoothFactor: 0.25}).addTo(map)
+    info.remove()
+    var geoLayer = new L.geoJson(mapData, {style: style, smoothFactor: 0.25, onEachFeature: onEachFeature}).addTo(map)
     layerGroup.addLayer(geoLayer)
+    addInfo()
       indexCount = 0
       console.log("133 count is " + indexCount)
   };
 };
-setTimeout(updateColors, 700);
+// setTimeout(updateColors, 500);
  };
 
 }
 </script>
-
 </body>
 </html>
