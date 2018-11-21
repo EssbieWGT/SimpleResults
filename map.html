@@ -133,7 +133,8 @@ info.onAdd = function (map) {
 info.update = function (props) {
     this._div.innerHTML = "<h4> 2018 House Races on Election Night </h4>"
     + "Timestamp: " + mapData.features[1].properties.times[indexCount]
-    + "</br> Click on map for district numbers </br>"
+    + "</br> Click on map for district numbers </br>" 
+	+"</br> Refresh to restart animation </br>"
 };
 info.addTo(map);
 }
@@ -141,22 +142,21 @@ info.addTo(map);
 updateColors()
 
 function updateColors(){
-  if (indexCount != 133){
+  if (indexCount != 132){
     layerGroup.clearLayers();
     info.remove()
     var geoLayer = new L.geoJson(mapData, {style: style, smoothFactor: 0.25,onEachFeature: onEachFeature})
     layerGroup.addLayer(geoLayer)
     addInfo()
     indexCount = indexCount+1
-    setTimeout(updateColors, 700);
-  } else { if (indexCount == 133){
-    layerGroup.clearLayers();
-    info.remove()
-    var geoLayer = new L.geoJson(mapData, {style: style, smoothFactor: 0.25, onEachFeature: onEachFeature}).addTo(map)
-    layerGroup.addLayer(geoLayer)
-    addInfo()
+    setTimeout(updateColors, 500);
+  } else { if (indexCount == 132){
+    // layerGroup.clearLayers();
+    // info.remove()
+    // var geoLayer = new L.geoJson(mapData, {style: style, smoothFactor: 0.25, onEachFeature: onEachFeature}).addTo(map)
+    // layerGroup.addLayer(geoLayer)
+    // addInfo()
       indexCount = 0
-      console.log("133 count is " + indexCount)
   };
 };
 // setTimeout(updateColors, 500);
